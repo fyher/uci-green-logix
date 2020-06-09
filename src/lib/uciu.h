@@ -1,5 +1,8 @@
 #ifndef UCIU_H
 #define UCIU_H
+#define FFI_LIB "/usr/lib/lib-b4a.so"
+
+
 
 typedef struct FieldUCI FieldUCI;
 struct FieldUCI
