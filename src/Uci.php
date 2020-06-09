@@ -1,6 +1,6 @@
 <?php
 
-namespace UciBee4all;
+namespace Uci\Bee4all;
 
 
 class Uci{
