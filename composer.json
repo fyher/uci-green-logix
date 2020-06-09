@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Uci\\Bee4all\\": "src/"
+      "Ucilib\\Bee4all\\": "src/"
     }
   }
 }
