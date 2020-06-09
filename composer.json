@@ -13,10 +13,9 @@
       "homepage": "https://www.fyher.com"
     }
   ],
-  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "UciBee4all\\": "src/"
+      "Uci\\Bee4all\\": "src/"
     }
   }
 }
