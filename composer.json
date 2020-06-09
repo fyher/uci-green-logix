@@ -1,0 +1,22 @@
+{
+  "name": "UciBee4all",
+  "description": "Package UIC bee4all",
+  "type": "package",
+  "require": {
+    "php": ">=7.4.6"
+  },
+  "license": "Fyher- GreenLogix",
+  "authors": [
+    {
+      "name": "Driaux cedric",
+      "email": "contact@fyher.com",
+      "homepage": "https://www.fyher.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "UciBee4all\\": "src/"
+    }
+  }
+}
