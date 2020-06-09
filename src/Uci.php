@@ -3,13 +3,15 @@
 namespace Ucilib\Bee4all;
 
 
+
+
 class Uci{
 
     private $uci;
 
     public function __construct()
     {
-        $uci = FFI::load(__DIR__ . '/lib/uciu.h');
+        $uci = \FFI::load(__DIR__ . '/lib/uciu.h');
     }
 
 
