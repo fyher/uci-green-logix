@@ -1,14 +1,15 @@
+#define FFI_LIB "lib-b4a.so"
+
 #ifndef UCIU_H
 #define UCIU_H
-#define FFI_LIB "/usr/lib/lib-b4a.so"
 
-
+#define MAXSIZE 30
 
 typedef struct FieldUCI FieldUCI;
 struct FieldUCI
 {
-	char *Value;
-	struct FieldUCI *Next;
+        char *Value;
+        struct FieldUCI *Next;
 };
 typedef FieldUCI *ListFieldUCI;
 
