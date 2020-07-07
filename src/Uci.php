@@ -220,6 +220,36 @@ class Uci{
 
         return $this->uci->UciReadModule();
     }
+
+    /****************************************************************************
+    FONCTION:  isDiscovered
+
+    But : PErmet de savoir a l'ihm si le module/capteur a ete declare vu
+
+    Entr▒e : uuid du module
+    Sortie : 1 deja vu et 0 jamais 'discovered'
+
+    Derni▒me modification :  06/07/2020 par  PHD
+
+     ****************************************************************************/
+    public function isDiscovered($uuid) :bool {
+        return $this->uci->isDiscovered($uuid);
+    }
+
+    /****************************************************************************
+    FONCTION:  Discovered
+
+    But :  declare vua le module (pour l'ihm)
+
+    Entr▒e : uuid du module
+    Sortie : 1 on a bien déclaré le module comme discovered
+    0 erreur on a pas réussi a accéder aux UCI
+    Derni▒me modification :  06/07/2020 par  PHD
+
+     ****************************************************************************/
+    public function discovered($uuid):bool {
+        return $this->uci->Discovered($uuid);
+    }
 }
 
 

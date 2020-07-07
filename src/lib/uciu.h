@@ -1,17 +1,14 @@
-#define FFI_LIB "lib-b4a.so"
-
 #ifndef UCIU_H
 #define UCIU_H
-
-#define MAXSIZE 30
 
 typedef struct FieldUCI FieldUCI;
 struct FieldUCI
 {
-        char *Value;
-        struct FieldUCI *Next;
+	char *Value;
+	struct FieldUCI *Next;
 };
 typedef FieldUCI *ListFieldUCI;
+typedef  char value_t[100];
 
 int uciget_int(char *);
 int uciget_string(char*, char*);
@@ -36,8 +33,7 @@ void RemoveAllChars(char* , char);
 ListFieldUCI uciGetListe(char *);
 void UciReadModule(void);
 int uciModuleExiste(char *);
-
-
-
+int isDiscovered(char *);
+int Discovered(char *);
 
 #endif
