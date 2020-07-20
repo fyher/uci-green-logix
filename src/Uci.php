@@ -27,7 +27,7 @@ class Uci{
      * @param array $liste
      * @return int
      */
-    public function NbFieldUCI(Array $liste):int{
+    public function NbFieldUCI( $liste):int{
 
         return $this->uci->NbFieldUCI($liste);
     }
@@ -37,9 +37,15 @@ class Uci{
      * @param car $path
      * @return array
      */
-    public function uciget_list(char $path):array {
+    public function uciget_list( $path):array {
 
-        return $this->uci->uciget_list($path);
+        $retour=$this->uci->uciget_list($path);
+        $array=[];
+        do{
+
+            $res=FFI::string($retour->Value);
+            $array[]=$res;
+        }while($retour->Next!=null);
     }
 
     /**
@@ -48,9 +54,9 @@ class Uci{
      *  retourne un entier correspond à l'entre path
      *
      */
-    public function uciget_int(char $path): int {
+    public function uciget_int( $path): int {
 
-        return $this->uci->uciget_string($path);
+        return $this->uci->uciget_int($path);
     }
 
     /**
@@ -60,9 +66,15 @@ class Uci{
      *
      *
      */
-    public function uciget_string(char $path,char $value):int{
+    public function uciget_string( $path){
 
-        return $this->uci->uciget_string($path,$value);
+        $value=$this->uci->new("value_t");
+        $retour=$this->uci->uciget_string($path,$value);
+        $ret=new \stdClass();
+        $ret->retour=$retour;
+        $ret->value=$value;
+        return $ret;
+
     }
 
 
@@ -75,7 +87,7 @@ class Uci{
      * @param char $variable
      * @return int
      */
-    public function uciGetModule_Int(char $uuid,char $variable):int{
+    public function uciGetModule_Int( $uuid, $variable):int{
 
         return $this->uic->uciGetModule_int($uuid,$variable);
     }
@@ -87,9 +99,14 @@ class Uci{
      * @return string
      * returne un string dans value correspondant au module uuid pour la valeur variable
      */
-    public function uciGetModule_String(char $uuid,char $variable,char $value):string {
+    public function uciGetModule_String( $uuid, $variable ):string {
 
-        return $this->uciGetModule_String($uuid,$variable,$value);
+             $value=$this->uci->new("value_t");
+             $retour=$this->uciGetModule_String($uuid,$variable,$value);
+            $ret=new \stdClass();
+            $ret->retour=$retour;
+            $ret->value=$value;
+            return $ret;
     }
 
     /**
@@ -97,9 +114,18 @@ class Uci{
      * @param char $variable
      * @return array
      */
-    public function uciGetModule_List(char $uuid,char $variable):array{
+    public function uciGetModule_List( $uuid, $variable):object{
 
-        return $this->uci->uciGetModule_List($uuid,$variable);
+        $retour=$this->uci->uciGetModule_List($uuid,$variable);
+        $array=[];
+        do{
+            $res=explode(",",FFI::string($retour->Value));
+            $array[]=array("mac"=>$res[0],"actif"=>$res[1]);
+
+        }while($retour->Next!=null);
+
+
+        return $array;
     }
 
     /**
@@ -108,7 +134,7 @@ class Uci{
      * @param char $value
      * @return int
      */
-    public function uciAddOption(char $uuid,char $variable,char $value):int{
+    public function uciAddOption( $uuid, $variable, $value):int{
 
         return $this->uci->uciAddOption($uuid,$variable,$value);
     }
@@ -120,7 +146,7 @@ class Uci{
      * @param char $value
      * @return int
      */
-    public function uciSetOption(char $uuid,char $variable,char $value):int{
+    public function uciSetOption( $uuid, $variable, $value):int{
 
         return $this->uci->uicSetOptions($uuid,$variable,$value);
     }
@@ -130,8 +156,8 @@ class Uci{
      * @param char $value
      * @return int
      */
-    public function uciAddModule(char $uuid,char $value):int{
-        return $this->uci->uciAddModule($uuid,$value);
+    public function uciAddModule( $uuid, $type):int{
+        return $this->uci->uciAddModule($uuid,$type);
     }
 
 
@@ -139,7 +165,7 @@ class Uci{
      * @param char $uuid
      * @return int
      */
-    public function uciDeleteModule(char $uuid):int{
+    public function uciDeleteModule( $uuid):int{
 
         return $this->uci->uciDeleteModule($uuid);
     }
@@ -149,7 +175,7 @@ class Uci{
      * @param char $variable
      * @return int
      */
-    public function uciDeleteOption(char $uuid,char $variable):int{
+    public function uciDeleteOption( $uuid, $variable):int{
 
         return $this->uci->uciDeleteOption($uuid,$variable);
     }
@@ -160,7 +186,7 @@ class Uci{
      * @param char $value
      * @return int
      */
-    public function uciAddList(char $uuid,char $variable,char $value):int{
+    public function uciAddList( $uuid, $variable, $value):int{
 
         return $this->uci->uciAddList($uuid,$variable,$value);
     }
@@ -172,7 +198,7 @@ class Uci{
      * @param char $value
      * @return int
      */
-    public function uciDeleteList(char $uuid,char $variable,char $value):int{
+    public function uciDeleteList( $uuid, $variable, $value):int{
 
         return $this->uci->uciDeleteList($uuid,$variable,$value);
     }
@@ -182,7 +208,7 @@ class Uci{
      * @param char $variable
      * @return int
      */
-    public function uciDropList(char $uuid,char $variable):int{
+    public function uciDropList( $uuid, $variable):int{
 
         return $this->uci->dropList($uuid,$variable);
     }
@@ -192,9 +218,16 @@ class Uci{
      * @param char $request
      * @return array
      */
-    public function uciGetListe(char $request): array{
+    public function uciGetListe( $request): array{
 
-        return $this->uci->uciGetListe($request);
+        $retour=$this->uci->uciGetListe($request);
+        //on doit retourner un array
+        $retour=[];
+        do {
+            $retour[]=FFI::string($retour->value);
+        } while ($retour->Next!=null);
+
+        return $retour;
     }
 
 
@@ -202,7 +235,7 @@ class Uci{
      * @param char $searchObject
      * @return int
      */
-    public function uciModuleExiste(char $searchObject):int{
+    public function uciModuleExiste( $searchObject):int{
 
         return $this->uciModuleExiste($searchObject);
     }
@@ -211,7 +244,7 @@ class Uci{
      * @param char $uuid
      * @return int
      */
-    public function uciCommitModule(char $uuid):int{
+    public function uciCommitModule( $uuid):int{
 
         return $this->uci->uciCommitModule($uuid);
     }
@@ -220,6 +253,20 @@ class Uci{
 
         return $this->uci->UciReadModule();
     }
+
+
+    public function isArchived($uuid){
+        return $this->uci->isArchived($uuid);
+    }
+
+    public function setArchived($uuid){
+        return $this->uci->setArchived($uuid);
+    }
+
+    public function unsetArchived($uuid){
+        return $this->uci-unsetArchived($uuid);
+    }
+
 
     /****************************************************************************
     FONCTION:  isDiscovered
@@ -250,6 +297,42 @@ class Uci{
     public function discovered($uuid):bool {
         return $this->uci->Discovered($uuid);
     }
+
+
+    public function isUp($char){
+
+        return $this->uci->isUp($char);
+    }
+
+    public function nbCapteur($char,$type){
+
+        return $this->uci->nbCapteur($char,$type);
+    }
+
+    public function getValues($mac,$type,$index){
+
+        $value=$this->uci->new("value_t");
+        $retour=$this->uci->getValues($mac,$type,$index,$value);
+        $ret=new \stdClass();
+        $ret->retour=$retour;
+        $ret->value=FFI::string($value);
+        return $ret;
+
+    }
+
+
+    public function setOffset($mac,$type,$index){
+        $values=$this->uci->new("value_t");
+        return $this->uci->setOffset($mac,$type,$index,$values);
+
+    }
+
+    public function getOffset($uuid,$type,$index){
+
+
+        return $this->uci->getOffset($uuid,$type,$index);
+    }
+
 }
 
 
