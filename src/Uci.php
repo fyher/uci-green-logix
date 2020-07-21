@@ -23,6 +23,55 @@ class Uci{
 
 
 
+    function ReadListSensor(){
+
+        $retour=$this->uci->ReadListSensor();
+        $array=[];
+        do{
+
+            $arrayCapteur=[];
+            $listeCapteurs=$retour->Capteurs;
+            do{
+                $arrayCapteur[]=array(
+                    "type"=>$listeCapteurs->Type,
+                    "index"=>$listeCapteurs->index,
+                    "value"=>$listeCapteurs->Value,
+                );
+            }while($listeCapteurs->Next!=null);
+            $array[]=array(
+               "type"=>FFI::string($retour->type),
+                "mac"=>FFI::string($retour->uuid),
+                "parent"=>FFI::string($retour->parent),
+                "capteurs"=>$arrayCapteur
+
+            );
+        }while($retour->Next!=null);
+
+    }
+
+    function DeleteSensor(){
+
+        return $this->uci->DeleteSensor();
+    }
+
+    function NbSensor($liste,$type){
+
+        return $this->uci->NvSensor($liste,$type);
+    }
+
+    function NbCapteur($liste,$type){
+
+    }
+
+
+    public function isArchived($uuid){
+        return $this->uci->isArchived($uuid);
+    }
+
+
+    public function unsetArchived($uuid){
+        return $this->uci->unsetArchived($uuid);
+    }
     /**
      * @param array $liste
      * @return int
