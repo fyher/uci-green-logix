@@ -23,9 +23,10 @@ class Uci{
 
 
 
-    function ReadListSensor(){
+    function uciReadSensor(){
 
-        $retour=$this->uci->ReadListSensor();
+        $list=$this->uci->new('ListFieldSensor');
+        $retour=$this->uci->uciReadSensor($list);
         $array=[];
         do{
 
@@ -33,15 +34,16 @@ class Uci{
             $listeCapteurs=$retour->Capteurs;
             do{
                 $arrayCapteur[]=array(
-                    "type"=>$listeCapteurs->Type,
-                    "index"=>$listeCapteurs->index,
-                    "value"=>$listeCapteurs->Value,
+                    "Type"=>$listeCapteurs->Type,
+                    "Index"=>$listeCapteurs->index,
+                    "Value"=>$listeCapteurs->Value,
                 );
             }while($listeCapteurs->Next!=null);
             $array[]=array(
-               "type"=>FFI::string($retour->type),
-                "mac"=>FFI::string($retour->uuid),
-                "parent"=>FFI::string($retour->parent),
+               "type"=>FFI::string($retour->Type),
+                "mac"=>FFI::string($retour->Uuid),
+                "parent"=>FFI::string($retour->Parent),
+                "up"=>$retour->Up,
                 "capteurs"=>$arrayCapteur
 
             );
@@ -304,17 +306,12 @@ class Uci{
     }
 
 
-    public function isArchived($uuid){
-        return $this->uci->isArchived($uuid);
-    }
 
     public function setArchived($uuid){
         return $this->uci->setArchived($uuid);
     }
 
-    public function unsetArchived($uuid){
-        return $this->uci-unsetArchived($uuid);
-    }
+
 
 
     /****************************************************************************
@@ -353,10 +350,6 @@ class Uci{
         return $this->uci->isUp($char);
     }
 
-    public function nbCapteur($char,$type){
-
-        return $this->uci->nbCapteur($char,$type);
-    }
 
     public function getValues($mac,$type,$index){
 
@@ -386,3 +379,5 @@ class Uci{
 
 
 ?>
+
+
